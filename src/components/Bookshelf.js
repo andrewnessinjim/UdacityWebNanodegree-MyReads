@@ -12,6 +12,7 @@ class Bookshelf extends Component {
               <li key={book.id}>
                 <Book
                   data = {book}
+                  onNotifyChange = {this.props.onNotifyChange}
               />
               </li>
             ))}
