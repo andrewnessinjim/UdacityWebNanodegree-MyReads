@@ -11,9 +11,11 @@ class SearchableBookshelf extends Component {
     }
 
     onQueryChange = (event) => {
-        this.setState({query: event.target.value});
-        if(this.state.query) {
-            BooksAPI.search(this.state.query).then(books => this.setState({books}));
+        this.setState({query: event.target.value})
+
+        const userQuery = this.state.query;
+        if(userQuery && userQuery.trim()) {
+            BooksAPI.search(userQuery).then(books => this.setState({books}));
         }
     }
 
