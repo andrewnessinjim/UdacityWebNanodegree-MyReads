@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Bookshelf from './Bookshelf';
+import {Link} from 'react-router-dom';
 
 class SearchableBookshelf extends Component {
 
@@ -60,7 +61,7 @@ class SearchableBookshelf extends Component {
         return (
             <div className="search-books">
                 <div className="search-books-bar">
-                    <a className="close-search" onClick={this.props.onNavigate}>Close</a>
+                    <Link to="/" className="close-search">Close</Link>
                     <div className="search-books-input-wrapper">
                         {/*
                   NOTES: The search from BooksAPI is limited to a particular set of search terms.
@@ -75,7 +76,7 @@ class SearchableBookshelf extends Component {
                     </div>
                 </div>
                 <Bookshelf
-                    books={this.state.books}
+                    books={this.state.books.filter(book => this.state.query && book.title.startsWith(this.state.query))}
                     padding={true}
                 />
             </div>
