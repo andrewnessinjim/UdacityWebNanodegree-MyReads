@@ -59,7 +59,8 @@ class BooksApp extends React.Component {
 
         <Route path="/search" render={() => {
           return <SearchableBookshelf
-          onNotifyChange={this.onNotifyChange}/>
+          onNotifyChange={this.onNotifyChange}
+          userBooks={this.state.books.map(book => ({id: book.id, shelf: book.shelf}))}/>
         }}
         />
       </div>

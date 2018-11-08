@@ -36,7 +36,13 @@ class SearchableBookshelf extends Component {
                     </div>
                 </div>
                 <Bookshelf
-                    books={this.state.books}
+                    books={this.state.books.map(book => {
+                        const userBook = this.props.userBooks.filter(userBook => userBook.id === book.id);
+                        if(userBook.length > 0) {
+                            book.shelf = userBook[0].shelf;
+                        }
+                        return book;
+                    })}
                     padding={true}
                     onNotifyChange={this.props.onNotifyChange}
                 />
