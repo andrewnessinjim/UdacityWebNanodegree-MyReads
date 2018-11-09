@@ -11,12 +11,25 @@ class SearchableBookshelf extends Component {
     }
 
     onQueryChange = (event) => {
-        this.setState({query: event.target.value})
+        const userQuery = event.target.value;
 
-        const userQuery = this.state.query;
+        this.setState({query: userQuery});
+
         if(userQuery && userQuery.trim()) {
             BooksAPI.search(userQuery).then(books => this.setState({books}));
+        } else {
+            this.setState({books: []});
         }
+    }
+
+    addBooksToShelves(allBooks, userBooks) {
+        return allBooks.map(book => {
+            const userBook = userBooks.filter(userBook => userBook.id === book.id);
+            if(userBook.length > 0) {
+                book.shelf = userBook[0].shelf;
+            }
+            return book;
+        });
     }
 
     render() {
@@ -25,26 +38,11 @@ class SearchableBookshelf extends Component {
                 <div className="search-books-bar">
                     <Link to="/" className="close-search">Close</Link>
                     <div className="search-books-input-wrapper">
-                        {/*
-                  NOTES: The search from BooksAPI is limited to a particular set of search terms.
-                  You can find these search terms here:
-                  https://github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md
-
-                  However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
-                  you don't find a specific author or title. Every search is limited by search terms.
-                */}
                         <input type="text" placeholder="Search by title or author" value={this.state.query} onChange={this.onQueryChange} />
-
                     </div>
                 </div>
                 <Bookshelf
-                    books={this.state.books.map(book => {
-                        const userBook = this.props.userBooks.filter(userBook => userBook.id === book.id);
-                        if(userBook.length > 0) {
-                            book.shelf = userBook[0].shelf;
-                        }
-                        return book;
-                    })}
+                    books={this.addBooksToShelves(this.state.books, this.props.userBooks)}
                     padding={true}
                     onNotifyChange={this.props.onNotifyChange}
                 />
