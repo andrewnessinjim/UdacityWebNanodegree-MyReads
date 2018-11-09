@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import Bookshelf from './Bookshelf';
 import { Link } from 'react-router-dom';
+import Bookshelf from './Bookshelf';
 import * as BooksAPI from '../BooksAPI';
 
 class SearchableBookshelf extends Component {
