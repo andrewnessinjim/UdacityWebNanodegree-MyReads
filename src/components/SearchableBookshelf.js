@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import * as BooksAPI from '../BooksAPI';
 
 class SearchableBookshelf extends Component {
+  searchPromise = null;
 
   state = {
     books: [],
@@ -15,11 +16,13 @@ class SearchableBookshelf extends Component {
     this.setState({ query: userQuery });
 
     if (userQuery && userQuery.trim()) {
-      BooksAPI.search(userQuery).then(books => {
+      this.searchPromise = BooksAPI.search(userQuery).then(books => {
         this.setState({ books: Array.isArray(books) ? books : [] });
       });
     } else {
-      this.setState({ books: [] });
+      /*Ensure the page is cleared only after the previous search result's handler has completed. Otherwise the search results may
+      get rendered on the page after we clear it*/
+      this.searchPromise.then(() => this.setState({ books: [] }));
     }
   }
 
