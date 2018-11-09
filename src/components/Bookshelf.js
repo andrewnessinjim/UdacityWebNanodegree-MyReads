@@ -2,16 +2,18 @@ import React from 'react';
 import Book from './Book';
 
 const Bookshelf = (props) => {
+  const {padding, name, books, onNotifyChange} = props;
+
   return (
-    <div className={"bookshelf " + (props.padding? "bookshelf-padding" : "")}>
-      {props.name? (<h2 className="bookshelf-title">{props.name}</h2>) : ""}
+    <div className={"bookshelf " + (padding? "bookshelf-padding" : "")}>
+      {name? (<h2 className="bookshelf-title">{name}</h2>) : ""}
       <div className="bookshelf-books">
         <ol className="books-grid">
-          {props.books.map(book => (
+          {books.map(book => (
             <li key={book.id}>
               <Book
                 data = {book}
-                onNotifyChange = {props.onNotifyChange}
+                onNotifyChange = {onNotifyChange}
             />
             </li>
           ))}

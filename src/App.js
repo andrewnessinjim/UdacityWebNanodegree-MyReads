@@ -36,6 +36,7 @@ class BooksApp extends React.Component {
   }
 
   render() {
+    const {books} = this.state;
     return (
       <div className="app">
         <Route exact path="/" render={() => (
@@ -48,7 +49,7 @@ class BooksApp extends React.Component {
                 {userBookshelves.map(bookshelf => (
                   <Bookshelf
                     name={bookshelf.heading}
-                    books={this.state.books.filter(book => book.shelf === bookshelf.id)}
+                    books={books.filter(book => book.shelf === bookshelf.id)}
                     onNotifyChange={this.onNotifyChange}
                   />
                 ))}
@@ -64,7 +65,7 @@ class BooksApp extends React.Component {
         <Route path="/search" render={() => (
           <SearchableBookshelf
             onNotifyChange={this.onNotifyChange}
-            userBooks={this.state.books.map(book => ({ id: book.id, shelf: book.shelf }))} />
+            userBooks={books.map(book => ({ id: book.id, shelf: book.shelf }))} />
         )} />
       </div>
     )
