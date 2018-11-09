@@ -5,6 +5,17 @@ import Bookshelf from './components/Bookshelf';
 import SearchableBookshelf from './components/SearchableBookshelf';
 import { Link, Route } from 'react-router-dom';
 
+const userBookshelves = [{
+  id: "currentlyReading",
+  heading: "Currently Reading",
+}, {
+  id: "wantToRead",
+  heading: "Want To Read"
+}, {
+  id: "read",
+  heading: "Read"
+}];
+
 class BooksApp extends React.Component {
   state = {
     books: []
@@ -14,7 +25,7 @@ class BooksApp extends React.Component {
     this.updateBooks();
   }
 
-  onNotifyChange= () => {
+  onNotifyChange = () => {
     this.updateBooks();
   }
 
@@ -34,20 +45,13 @@ class BooksApp extends React.Component {
             </div>
             <div className="list-books-content">
               <div>
-                <Bookshelf
-                  name="Currently Reading"
-                  books={this.state.books.filter(book => book.shelf === 'currentlyReading')}
-                  onNotifyChange={this.onNotifyChange}
-                />
-                <Bookshelf
-                  name="Want to Read"
-                  books={this.state.books.filter(book => book.shelf === 'wantToRead')}
-                  onNotifyChange={this.onNotifyChange}
-                />
-                <Bookshelf
-                  name="Read"
-                  books={this.state.books.filter(book => book.shelf === 'read')}
-                  onNotifyChange={this.onNotifyChange}
+                {userBookshelves.map(bookshelf => (
+                  <Bookshelf
+                    name={bookshelf.heading}
+                    books={this.state.books.filter(book => book.shelf === bookshelf.id)}
+                    onNotifyChange={this.onNotifyChange}
+                  />
+                ))}
                 />
               </div>
             </div>
@@ -59,9 +63,9 @@ class BooksApp extends React.Component {
 
         <Route path="/search" render={() => (
           <SearchableBookshelf
-          onNotifyChange={this.onNotifyChange}
-          userBooks={this.state.books.map(book => ({id: book.id, shelf: book.shelf}))}/>
-        )}/>
+            onNotifyChange={this.onNotifyChange}
+            userBooks={this.state.books.map(book => ({ id: book.id, shelf: book.shelf }))} />
+        )} />
       </div>
     )
   }
