@@ -13,7 +13,11 @@ class Book extends Component {
         return (
             <div className="book">
                 <div className="book-top">
-                    <div className="book-cover" style={{ width: 128, height: 192, backgroundImage: `url(${book.imageLinks.thumbnail})` }}></div>
+                    <div className="book-cover" style={{
+                        width: 128,
+                        height: 192,
+                        backgroundImage: book.imageLinks && book.imageLinks.thumbnail? `url(${book.imageLinks.thumbnail})` : "none"
+                    }}></div>
                     <div className="book-shelf-changer">
                         <select
                             onChange={(event) => {
@@ -32,7 +36,7 @@ class Book extends Component {
                     </div>
                 </div>
                 <div className="book-title">{book.title}</div>
-                <div className="book-authors">{book.authors}</div>
+                <div className="book-authors">{book.authors? book.authors : ""}</div>
             </div>
         );
     }
