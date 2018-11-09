@@ -5,6 +5,7 @@ import * as BooksAPI from '../BooksAPI';
 
 class SearchableBookshelf extends Component {
   searchPromise = null;
+  emptyQuery = false;
 
   state = {
     books: [],
@@ -16,13 +17,13 @@ class SearchableBookshelf extends Component {
     this.setState({ query: userQuery });
 
     if (userQuery && userQuery.trim()) {
+      this.emptyQuery = false;
       this.searchPromise = BooksAPI.search(userQuery).then(books => {
-        this.setState({ books: Array.isArray(books) ? books : [] });
+        this.setState({ books: Array.isArray(books) && !this.emptyQuery? books : [] });
       });
     } else {
-      /*Ensure the page is cleared only after the previous search result's handler has completed. Otherwise the search results may
-      get rendered on the page after we clear it*/
-      this.searchPromise.then(() => this.setState({ books: [] }));
+      this.emptyQuery = true;
+      this.setState({books: []});
     }
   }
 
