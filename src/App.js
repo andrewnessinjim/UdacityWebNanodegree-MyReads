@@ -18,14 +18,15 @@ class BooksApp extends React.Component {
 
   onNotifyChange = (bookId, bookShelf) => {
     const changedBookIndex = this.state.books.findIndex(book => book.id === bookId);
-    if(changedBookIndex >= 0) {
+
+    if(changedBookIndex >= 0) { //If book is alreaded loaded, just change it's shelf
       this.setState((prevState => {
         prevState.books[changedBookIndex].shelf = bookShelf;
         return {
           books: prevState.books
         };
       }))
-    } else {
+    } else { //Else, load that one book from backend
       BooksAPI.get(bookId).then(book => {
         book.shelf = bookShelf;
         this.setState(prevState => ({
