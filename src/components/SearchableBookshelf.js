@@ -18,11 +18,11 @@ class SearchableBookshelf extends Component {
     if (userQuery && userQuery.trim()) {
       this.emptyQuery = false;
       BooksAPI.search(userQuery).then(books => {
-        this.setState({ books: Array.isArray(books) && !this.emptyQuery? books : [] });
+        this.setState({ books: Array.isArray(books) && !this.emptyQuery ? books : [] });
       });
     } else {
       this.emptyQuery = true;
-      this.setState({books: []});
+      this.setState({ books: [] });
     }
   }
 
