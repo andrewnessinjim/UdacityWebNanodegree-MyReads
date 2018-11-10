@@ -4,7 +4,6 @@ import Bookshelf from './Bookshelf';
 import * as BooksAPI from '../BooksAPI';
 
 class SearchableBookshelf extends Component {
-  searchPromise = null;
   emptyQuery = false;
 
   state = {
@@ -18,7 +17,7 @@ class SearchableBookshelf extends Component {
 
     if (userQuery && userQuery.trim()) {
       this.emptyQuery = false;
-      this.searchPromise = BooksAPI.search(userQuery).then(books => {
+      BooksAPI.search(userQuery).then(books => {
         this.setState({ books: Array.isArray(books) && !this.emptyQuery? books : [] });
       });
     } else {
