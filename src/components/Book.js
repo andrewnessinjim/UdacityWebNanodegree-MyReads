@@ -14,9 +14,7 @@ const Book = (props) => {
         <div className="book-shelf-changer">
           <select
             onChange={(event) => {
-              onShelfChange(event).then(
-                props.onNotifyChange
-              );
+              onShelfChange(event, props.onNotifyChange)
             }}
             bookid={book.id}
             defaultValue={(book.shelf ? book.shelf : 'none')}>
@@ -34,8 +32,12 @@ const Book = (props) => {
   );
 }
 
-const onShelfChange = (event) => {
-  return BooksAPI.update({ id: event.target.getAttribute('bookid') }, event.target.value);
+const onShelfChange = (event, onNotifyChange) => {
+  const bookId = event.target.getAttribute('bookid');
+  const bookShelf = event.target.value;
+
+  BooksAPI.update({id: bookId}, bookShelf)
+  .then(onNotifyChange(bookId, bookShelf));
 }
 
 export default Book;

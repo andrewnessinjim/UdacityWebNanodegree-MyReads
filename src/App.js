@@ -11,17 +11,28 @@ class BooksApp extends React.Component {
   }
 
   componentDidMount() {
-    this.updateBooks();
-  }
-
-  onNotifyChange = () => {
-    this.updateBooks();
-  }
-
-  updateBooks() {
     BooksAPI.getAll().then(books => {
       this.setState({ books })
     })
+  }
+
+  onNotifyChange = (bookId, bookShelf) => {
+    const changedBookIndex = this.state.books.findIndex(book => book.id === bookId);
+    if(changedBookIndex >= 0) {
+      this.setState((prevState => {
+        prevState.books[changedBookIndex].shelf = bookShelf;
+        return {
+          books: prevState.books
+        };
+      }))
+    } else {
+      BooksAPI.get(bookId).then(book => {
+        book.shelf = bookShelf;
+        this.setState(prevState => ({
+          books: prevState.books.concat(book)
+        }));
+      });
+    }
   }
 
   render() {
