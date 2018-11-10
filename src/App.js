@@ -48,6 +48,7 @@ class BooksApp extends React.Component {
               <div>
                 {userBookshelves.map(bookshelf => (
                   <Bookshelf
+                    key={bookshelf.id}
                     name={bookshelf.heading}
                     books={books.filter(book => book.shelf === bookshelf.id)}
                     onNotifyChange={this.onNotifyChange}
