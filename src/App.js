@@ -1,20 +1,9 @@
 import React from 'react'
+import { Route, Switch } from 'react-router-dom';
 import * as BooksAPI from './BooksAPI'
 import './App.css'
-import Bookshelf from './components/Bookshelf';
 import SearchableBookshelf from './components/SearchableBookshelf';
-import { Link, Route, Switch } from 'react-router-dom';
-
-const userBookshelves = [{
-  id: "currentlyReading",
-  heading: "Currently Reading",
-}, {
-  id: "wantToRead",
-  heading: "Want To Read"
-}, {
-  id: "read",
-  heading: "Read"
-}];
+import UserBookShelves from './components/UserBookshelves';
 
 class BooksApp extends React.Component {
   state = {
@@ -41,27 +30,10 @@ class BooksApp extends React.Component {
       <div className="app">
         <Switch>
           <Route exact path="/" render={() => (
-            <div className="list-books">
-              <div className="list-books-title">
-                <h1>MyReads</h1>
-              </div>
-              <div className="list-books-content">
-                <div>
-                  {userBookshelves.map(bookshelf => (
-                    <Bookshelf
-                      key={bookshelf.id}
-                      name={bookshelf.heading}
-                      books={books.filter(book => book.shelf === bookshelf.id)}
-                      onNotifyChange={this.onNotifyChange}
-                    />
-                  ))}
-                  />
-              </div>
-              </div>
-              <div className="open-search">
-                <Link to="/search">Add a book</Link>
-              </div>
-            </div>
+            <UserBookShelves
+              books={books}
+              onNotifyChange={this.onNotifyChange}
+            />
           )} />
 
           <Route path="/search" render={() => (
