@@ -4,6 +4,7 @@ import * as BooksAPI from './BooksAPI'
 import './App.css'
 import SearchableBookshelf from './components/SearchableBookshelf';
 import UserBookShelves from './components/UserBookshelves';
+import { changeBookshelf, addBookToShelf } from './reducers/bookshelf_reducers';
 
 class BooksApp extends React.Component {
   state = {
@@ -18,20 +19,16 @@ class BooksApp extends React.Component {
 
   onNotifyChange = (bookId, bookShelf) => {
     const changedBookIndex = this.state.books.findIndex(book => book.id === bookId);
-
+    
     if(changedBookIndex >= 0) { //If book is alreaded loaded, just change it's shelf
-      this.setState((prevState => {
-        prevState.books[changedBookIndex].shelf = bookShelf;
-        return {
-          books: prevState.books
-        };
-      }))
+      this.setState(prevState => 
+        changeBookshelf(prevState, changedBookIndex, bookShelf)
+      );
     } else { //Else, load that one book from backend
       BooksAPI.get(bookId).then(book => {
-        book.shelf = bookShelf;
-        this.setState(prevState => ({
-          books: prevState.books.concat(book)
-        }));
+        this.setState(prevState => 
+          addBookToShelf(prevState, book, bookShelf)
+        );
       });
     }
   }
